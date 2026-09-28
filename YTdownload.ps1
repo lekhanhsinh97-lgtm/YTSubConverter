@@ -21,7 +21,7 @@ try {
     # Download the video with all subtitle tracks (in .srv3 format), using the best
     # available video/audio stream and storing the files in the temp folder.
     $ytDlpArgs = $args + @(
-        "-f", "bestvideo+bestaudio/best",
+        " -f", "bestvideo+bestaudio/best",
         "--write-subs", 
         "--sub-format", "srv3",
         "--sub-langs", "all",
@@ -85,10 +85,10 @@ try {
 
         # Build the ffmpeg command that maps original video/audio streams and adds all
         # subtitle streams as extra tracks with language metadata.
-        $ffmpegArgs = @("-y", "-i", $videoPath)
+        $ffmpegArgs = @("-y", "-i", "`"$videoPath`"")
 
         foreach ($item in $convertedSubs) {
-            $ffmpegArgs += @("-i", $item.AssPath)
+            $ffmpegArgs += @("-i", "`"$($item.AssPath)`"")
         }
 
         $ffmpegArgs += @(
@@ -96,7 +96,8 @@ try {
             "-probesize", "2147483647",
             "-map", "0:v?",
             "-map", "0:a?",
-            "-map", "0:d?")
+            "-map", "0:d?",
+            "-map", "0:t?")
 
         for ($i = 0; $i -lt $convertedSubs.Count; $i++) {
             $ffmpegArgs += @("-map", "$($i + 1):0")
@@ -126,7 +127,7 @@ try {
         }
 
         # Write the final muxed MKV into the temporary result folder.
-        $ffmpegArgs += (Join-Path $tempResultPath "$videoName.mkv")
+        $ffmpegArgs += "`"$(Join-Path $tempResultPath "$videoName.mkv")`""
 
         # Only mux the file when the original video is present in the temp workspace.
         if (Test-Path -LiteralPath $videoPath) {
