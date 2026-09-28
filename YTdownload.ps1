@@ -24,10 +24,10 @@ try {
         " -f", "bestvideo+bestaudio/best",
         "--write-subs", 
         "--sub-format", "srv3",
-        "--sub-langs", "all",
+        "--sub-langs", "all.-live_chat",
         "--embed-thumbnail", 
         "--merge-output-format", "mkv", 
-        "-P", "$tempPath",
+        "-P", "`"$tempPath`"",
         "-o", "`"%(title)s [%(id)s].%(ext)s`"")
     Start-Process `
         -FilePath "$ytdlpPath" `
