@@ -24,7 +24,7 @@ try {
         " -f", "bestvideo+bestaudio/best",
         "--write-subs", 
         "--sub-format", "srv3",
-        "--sub-langs", "all.-live_chat",
+        "--sub-langs", "all,-live_chat",
         "--embed-thumbnail", 
         "--merge-output-format", "mkv", 
         "-P", "`"$tempPath`"",
